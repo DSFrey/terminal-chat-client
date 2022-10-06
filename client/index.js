@@ -5,4 +5,9 @@ const Message = require('./message');
 const socket = io('http://localhost:3002/');
 
 socket.emit('JOIN', 'lobby');
-socket.emit('MESSAGE', new Message('Hello World from the client!'));
+const message = new Message('Hello World from the client!');
+console.log(message);
+socket.emit('MESSAGE', message);
+socket.on('MESSAGE', (message) => {
+  console.log(`Message from the server to the client: ${message}`);
+});
