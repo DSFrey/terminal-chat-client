@@ -2,13 +2,14 @@
 
 const { io } = require('socket.io-client');
 
-const textEntry = require('./textEntry');
+const usernameEntry = require('./prompts');
 const socket = io('http://localhost:3002/');
 
 socket.emit('JOIN', 'lobby');
 
-textEntry(socket);
+usernameEntry(socket);
 
 socket.on('MESSAGE', (message) => {
-  console.log(`Username: ${message.text}`);
+  console.log(`From ${message.author}: ${message.text}`);
+  socket.emit('RECEIVED', { author: message.author, id: message.id });
 });
