@@ -1,13 +1,14 @@
 'use strict';
 
 const { io } = require('socket.io-client');
-const Message = require('./message');
+
+const textEntry = require('./textEntry');
 const socket = io('http://localhost:3002/');
 
 socket.emit('JOIN', 'lobby');
-const message = new Message('Hello World from the client!');
-console.log(message);
-socket.emit('MESSAGE', message);
+
+textEntry(socket);
+
 socket.on('MESSAGE', (message) => {
-  console.log(`Message from the server to the client: ${message}`);
+  console.log(`Username: ${message.text}`);
 });
